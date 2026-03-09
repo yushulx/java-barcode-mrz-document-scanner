@@ -76,5 +76,7 @@ if (cam.grabFrame(buffer)) {
 cam.close();
 ```
 
+## Blog
+[Building a Java Barcode Scanner with Camera SDK, ZXing, and Dynamsoft Barcode Reader](https://www.dynamsoft.com/codepool/java-barcode-scanner-reader.html)
 
 
