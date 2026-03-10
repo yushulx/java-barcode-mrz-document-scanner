@@ -1,6 +1,6 @@
 # LiteCam MRZ Scanner
 
-A desktop MRZ (Machine-Readable Zone) scanner built with Java, LiteCam, and the [Dynamsoft Capture Vision SDK](https://www.dynamsoft.com/capture-vision/docs/server/programming/java/). Detects and parses MRZ data from passports and travel documents in real time via camera or from image files.
+A desktop MRZ (Machine-Readable Zone) scanner built with Java, [LiteCam](https://github.com/yushulx/java-jni-barcode-qrcode-reader/tree/main/examples/barcode-scanner), and the [Dynamsoft Capture Vision SDK](https://www.dynamsoft.com/capture-vision/docs/server/programming/java/). Detects and parses MRZ data from passports and travel documents in real time via camera or from image files.
 
 ---
 
