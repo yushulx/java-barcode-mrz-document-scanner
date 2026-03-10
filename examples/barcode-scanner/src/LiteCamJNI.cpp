@@ -2,6 +2,7 @@
 #include <jni.h>
 #include <vector>
 #include <mutex>
+#include <cstring>
 #include <string>
 
 // Simple singleton registry for opened cameras referenced by an integer handle.
