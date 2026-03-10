@@ -101,3 +101,8 @@ java -jar target/litecam-mrz-scanner-1.0.0.jar --file
 | `MRTD_TD2_ID` | ICAO TD2 ID card (2-line) |
 
 ---
+
+## Blog
+[How to Build a Java MRZ Scanner Desktop App with Dynamsoft Capture Vision](https://www.dynamsoft.com/codepool/build-java-mrz-scanner-desktop-app-dynamsoft-capture-vision.html)
+
+---
