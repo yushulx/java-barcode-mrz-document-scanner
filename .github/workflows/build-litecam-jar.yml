@@ -1,0 +1,172 @@
+name: Build LiteCam JAR
+
+# Triggers on any push to main that touches the barcode-scanner project,
+# or on a manual workflow_dispatch so you can run it on-demand from GitHub.
+on:
+  push:
+    branches: [ main ]
+    paths:
+      - 'examples/barcode-scanner/**'
+      - '.github/workflows/build-litecam-jar.yml'
+  workflow_dispatch:
+
+jobs:
+  # ──────────────────────────────────────────────────────────────────
+  # Phase 1: Build the platform-native shared library on each OS.
+  # The three jobs run in parallel.
+  # ──────────────────────────────────────────────────────────────────
+  build-native:
+    name: Build native (${{ matrix.name }})
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          # Windows – produces litecam.dll
+          - name: windows-x86_64
+            os: windows-latest
+            lib_src: examples/barcode-scanner/build/Release/litecam.dll
+
+          # Linux – produces liblitecam.so
+          - name: linux-x86_64
+            os: ubuntu-latest
+            lib_src: examples/barcode-scanner/build/liblitecam.so
+
+          # macOS – CMakeLists.txt sets CMAKE_OSX_ARCHITECTURES="x86_64;arm64"
+          # so the resulting dylib is a universal binary for both Intel and Apple Silicon.
+          - name: macos-universal
+            os: macos-latest
+            lib_src: examples/barcode-scanner/build/liblitecam.dylib
+
+    runs-on: ${{ matrix.os }}
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      # Make sure JAVA_HOME is set before CMake runs so that find_package(JNI)
+      # can locate the JNI headers needed to compile LiteCamJNI.cpp.
+      - name: Set up Java (for JNI headers)
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # Linux needs X11 and Video4Linux2 development headers.
+      - name: Install Linux build dependencies
+        if: matrix.os == 'ubuntu-latest'
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y \
+            build-essential \
+            cmake \
+            libx11-dev \
+            libv4l-dev
+
+      - name: Configure CMake
+        working-directory: examples/barcode-scanner
+        run: cmake -B build -DCMAKE_BUILD_TYPE=Release
+
+      - name: Build litecam shared library
+        working-directory: examples/barcode-scanner
+        run: cmake --build build --config Release --target litecam
+
+      - name: Upload native library artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-${{ matrix.name }}
+          path: ${{ matrix.lib_src }}
+          if-no-files-found: error
+          retention-days: 1   # Only needed within this workflow run
+
+  # ──────────────────────────────────────────────────────────────────
+  # Phase 2: Collect all three native libraries, compile the Java
+  # wrapper, and assemble the fat JAR that bundles every platform.
+  # ──────────────────────────────────────────────────────────────────
+  package-jar:
+    name: Package multi-platform JAR
+    needs: build-native
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Java
+        uses: actions/setup-java@v4
+        with:
+          java-version: '11'
+          distribution: 'temurin'
+
+      # Download all three native artifacts into native-artifacts/<artifact-name>/
+      - name: Download all native artifacts
+        uses: actions/download-artifact@v4
+        with:
+          path: native-artifacts
+
+      - name: Show downloaded artifacts
+        run: find native-artifacts -type f | sort
+
+      # Compile Java sources from java-src/ into java-build/
+      - name: Compile Java sources
+        working-directory: examples/barcode-scanner
+        run: |
+          rm -rf java-build
+          mkdir -p java-build
+          find java-src -name '*.java' | xargs javac -d java-build
+
+      # Arrange the native libraries into the layout that LiteCam.java
+      # expects inside the JAR:  /natives/<osToken>-<archToken>/<libname>
+      #
+      # LiteCam.java archToken logic:
+      #   aarch64 / arm64  → arm64
+      #   *64*             → x86_64
+      #
+      # The macOS universal binary covers both Intel (x86_64) and Apple Silicon (arm64),
+      # so the same file is placed into both macos-* directories.
+      - name: Arrange native libraries in JAR staging area
+        run: |
+          BASE=examples/barcode-scanner/java-build/natives
+
+          mkdir -p "$BASE/windows-x86_64"
+          mkdir -p "$BASE/linux-x86_64"
+          mkdir -p "$BASE/macos-x86_64"
+          mkdir -p "$BASE/macos-arm64"
+
+          cp native-artifacts/native-windows-x86_64/litecam.dll      "$BASE/windows-x86_64/"
+          cp native-artifacts/native-linux-x86_64/liblitecam.so       "$BASE/linux-x86_64/"
+          cp native-artifacts/native-macos-universal/liblitecam.dylib  "$BASE/macos-x86_64/"
+          cp native-artifacts/native-macos-universal/liblitecam.dylib  "$BASE/macos-arm64/"
+
+      # MANIFEST.MF requires a trailing blank line per the JAR spec.
+      - name: Create MANIFEST.MF
+        run: |
+          mkdir -p examples/barcode-scanner/java-build/META-INF
+          printf 'Manifest-Version: 1.0\n'                                    >  examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+          printf 'Main-Class: com.example.litecam.LiteCamViewer\n'            >> examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+          printf 'Implementation-Title: LiteCam Java Wrapper\n'               >> examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+          printf 'Implementation-Version: 1.0.0\n'                            >> examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+          printf 'Built-By: GitHub Actions\n'                                  >> examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+          printf '\n'                                                           >> examples/barcode-scanner/java-build/META-INF/MANIFEST.MF
+
+      - name: Create litecam.jar
+        working-directory: examples/barcode-scanner/java-build
+        run: jar cfm ../litecam.jar META-INF/MANIFEST.MF .
+
+      - name: Verify JAR contents
+        run: |
+          echo "=== All entries in litecam.jar ==="
+          jar -tf examples/barcode-scanner/litecam.jar
+          echo ""
+          echo "=== Native libraries ==="
+          jar -tf examples/barcode-scanner/litecam.jar | grep '^natives/'
+
+      # Upload the JAR as a workflow artifact so it can be downloaded from the
+      # GitHub Actions run page (Actions → the run → Artifacts section).
+      # Retention is set to 90 days so recent builds remain downloadable.
+      - name: Upload litecam.jar
+        uses: actions/upload-artifact@v4
+        with:
+          name: litecam-jar
+          path: examples/barcode-scanner/litecam.jar
+          if-no-files-found: error
+          retention-days: 90
