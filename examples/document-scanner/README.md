@@ -2,6 +2,9 @@
 
 A Java Swing desktop application that uses **LiteCam** for live camera access and the **Dynamsoft Capture Vision SDK (DDN)** for automatic document boundary detection and normalization (deskew/crop).
 
+https://github.com/user-attachments/assets/bd91971e-07c7-4e02-b8bd-46f27097fc80
+
+
 ## Features
 
 - **Live camera mode** — continuously detects the document boundary in real-time and draws the detected quad on the camera feed
