@@ -68,9 +68,3 @@ mvn package
     java -cp target/barcode-1.0.0.jar Test.java <image file>
     ```
 
-## References
-
-- [SQLite JDBC Driver](https://github.com/xerial/sqlite-jdbc)
-
-## Blog
-- [How to Package JNI Shared Library into Jar File](https://www.dynamsoft.com/codepool/package-jni-shared-library-jar-file.html)
