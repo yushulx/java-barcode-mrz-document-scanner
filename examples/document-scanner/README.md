@@ -75,3 +75,6 @@ To start in **file-only mode** (no camera required):
 ```bash
 java -jar target/litecam-document-scanner-1.0.0.jar --file
 ```
+
+## Blog
+[How to Build a Live Document Scanner Desktop App in Java with Dynamsoft Capture Vision SDK](https://www.dynamsoft.com/codepool/build-live-document-scanner-desktop-app-java-dynamsoft.html)
