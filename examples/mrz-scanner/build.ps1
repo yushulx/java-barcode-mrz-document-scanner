@@ -1,5 +1,5 @@
-# Build script for LiteCam Barcode Scanner Maven Example
-# PowerShell version
+# Build script for the LiteCam MRZ Scanner Maven Example
+# Windows shell version
 
 $ErrorActionPreference = "Stop"
 
@@ -39,6 +39,9 @@ java -version
 
 Write-Host "`nMaven version:" -ForegroundColor Yellow
 & $MavenPath -version
+
+Write-Host "`nInstalling LiteCam into the local Maven repository..." -ForegroundColor Yellow
+& $MavenPath -q install:install-file "-Dfile=libs\litecam.jar" "-DgroupId=com.example" "-DartifactId=litecam" "-Dversion=1.0.0" "-Dpackaging=jar"
 
 Write-Host "`nCleaning previous build..." -ForegroundColor Yellow
 & $MavenPath clean

@@ -44,7 +44,7 @@ Passport control kiosks, hotel check-in systems, and border verification softwar
 - **Java 17+** — the project targets Java 17; verify with `java -version`
 - **Apache Maven 3.6+** — used for dependency management and fat-JAR assembly
 - **LiteCam JAR** — place `litecam.jar` in the `libs/` directory before building (included in the repository)
-- **Dynamsoft Capture Vision SDK 3.4.1000** — pulled automatically from the Dynamsoft Maven repository
+- **Dynamsoft Capture Vision SDK 3.6.4000** — pulled automatically from the Dynamsoft Maven repository
 - A [Dynamsoft license key](https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform)
 
 
@@ -335,11 +335,11 @@ try {
 
 ```bash
 #!/bin/bash
-# Build script for LiteCam Barcode Scanner Maven Example
+# Build script for the LiteCam MRZ Scanner example
 
 set -e
 
-echo "Building LiteCam Barcode Scanner Maven Example..."
+echo "Building LiteCam MRZ Scanner Maven Example..."
 echo "================================================="
 
 # Check if Maven is installed
@@ -369,6 +369,15 @@ echo "Maven version:"
 mvn -version
 
 echo ""
+echo "Installing LiteCam into the local Maven repository..."
+mvn -q install:install-file \
+    -Dfile=libs/litecam.jar \
+    -DgroupId=com.example \
+    -DartifactId=litecam \
+    -Dversion=1.0.0 \
+    -Dpackaging=jar
+
+echo ""
 echo "Cleaning previous build..."
 mvn clean
 
@@ -388,11 +397,11 @@ echo ""
 echo "Build completed successfully!"
 echo ""
 echo "To run the application:"
-echo "  Option 1: mvn exec:java -Dexec.mainClass=\"com.example.litecam.BarcodeScanner\""
-echo "  Option 2: java -jar target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar"
+echo "  Option 1: mvn exec:java -Dexec.mainClass=\"com.example.litecam.MRZScanner\""
+echo "  Option 2: java -jar target/litecam-mrz-scanner-1.0.0.jar"
 echo ""
-echo "JAR file created: target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar"
-echo "JAR size: $(du -h target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar 2>/dev/null | cut -f1 || echo 'Unknown')"
+echo "JAR file created: target/litecam-mrz-scanner-1.0.0.jar"
+echo "JAR size: $(du -h target/litecam-mrz-scanner-1.0.0.jar 2>/dev/null | cut -f1 || echo 'Unknown')"
 
 ```
 
@@ -407,7 +416,7 @@ echo "JAR size: $(du -h target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar 2
 
 ## Conclusion
 
-This project shows how to build a full-featured MRZ scanner desktop application in Java 17 using the Dynamsoft Capture Vision SDK 3.4.1000 and the LiteCam camera library. The `CaptureVisionRouter` with the `ReadPassportAndId` template reduces the entire OCR-to-parsed-field pipeline to a single method call, while LiteCam handles low-level camera capture through JNI so the Swing application stays portable across Windows, Linux, and macOS. As a next step, explore the [Dynamsoft Capture Vision Java API documentation](https://www.dynamsoft.com/capture-vision/docs/server/programming/java/) to add support for barcode scanning, document detection, or custom MRZ templates within the same router instance.
+This project shows how to build a full-featured MRZ scanner desktop application in Java 17 using the Dynamsoft Capture Vision SDK 3.6.4000 and the LiteCam camera library. The `CaptureVisionRouter` with the `ReadPassportAndId` template reduces the entire OCR-to-parsed-field pipeline to a single method call, while LiteCam handles low-level camera capture through JNI so the Swing application stays portable across Windows, Linux, and macOS. As a next step, explore the [Dynamsoft Capture Vision Java API documentation](https://www.dynamsoft.com/capture-vision/docs/server/programming/java/) to add support for barcode scanning, document detection, or custom MRZ templates within the same router instance.
 
 ## Source Code
 [https://github.com/yushulx/java-jni-barcode-qrcode-reader/tree/main/examples/mrz-scanner](https://github.com/yushulx/java-jni-barcode-qrcode-reader/tree/main/examples/mrz-scanner)

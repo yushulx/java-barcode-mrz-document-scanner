@@ -1,5 +1,5 @@
 #!/bin/bash
-# Build script for LiteCam Barcode Scanner Maven Example
+# Build script for the LiteCam Document Scanner example
 
 set -e
 
@@ -33,6 +33,15 @@ echo "Maven version:"
 mvn -version
 
 echo ""
+echo "Installing LiteCam into the local Maven repository..."
+mvn -q install:install-file \
+    -Dfile=libs/litecam.jar \
+    -DgroupId=com.example \
+    -DartifactId=litecam \
+    -Dversion=1.0.0 \
+    -Dpackaging=jar
+
+echo ""
 echo "Cleaning previous build..."
 mvn clean
 
@@ -52,8 +61,8 @@ echo ""
 echo "Build completed successfully!"
 echo ""
 echo "To run the application:"
-echo "  Option 1: mvn exec:java -Dexec.mainClass=\"com.example.litecam.BarcodeScanner\""
-echo "  Option 2: java -jar target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar"
+echo "  Option 1: mvn exec:java -Dexec.mainClass=\"com.example.litecam.DocumentScanner\""
+echo "  Option 2: java -jar target/litecam-document-scanner-1.0.0.jar"
 echo ""
-echo "JAR file created: target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar"
-echo "JAR size: $(du -h target/litecam-barcode-scanner-1.0-SNAPSHOT-shaded.jar 2>/dev/null | cut -f1 || echo 'Unknown')"
+echo "JAR file created: target/litecam-document-scanner-1.0.0.jar"
+echo "JAR size: $(du -h target/litecam-document-scanner-1.0.0.jar 2>/dev/null | cut -f1 || echo 'Unknown')"

@@ -1,5 +1,5 @@
-# Build script for LiteCam Barcode Scanner Maven Example
-# PowerShell version
+# Build script for the LiteCam Document Scanner Maven Example
+# Windows shell version
 
 $ErrorActionPreference = "Stop"
 
@@ -40,6 +40,9 @@ java -version
 Write-Host "`nMaven version:" -ForegroundColor Yellow
 & $MavenPath -version
 
+Write-Host "`nInstalling LiteCam into the local Maven repository..." -ForegroundColor Yellow
+& $MavenPath -q install:install-file "-Dfile=libs\litecam.jar" "-DgroupId=com.example" "-DartifactId=litecam" "-Dversion=1.0.0" "-Dpackaging=jar"
+
 Write-Host "`nCleaning previous build..." -ForegroundColor Yellow
 & $MavenPath clean
 
@@ -55,11 +58,11 @@ Write-Host "`nCreating fat JAR with dependencies..." -ForegroundColor Yellow
 Write-Host "`nBuild completed successfully!" -ForegroundColor Green
 Write-Host ""
 Write-Host "To run the application:"
-Write-Host "  Option 1: & `"$MavenPath`" exec:java -Dexec.mainClass=`"com.example.litecam.MRZScanner`""
-Write-Host "  Option 2: java -jar target\litecam-mrz-scanner-1.0.0.jar"
+Write-Host "  Option 1: & `"$MavenPath`" exec:java -Dexec.mainClass=`"com.example.litecam.DocumentScanner`""
+Write-Host "  Option 2: java -jar target\litecam-document-scanner-1.0.0.jar"
 Write-Host ""
 
-$jarPath = "target\litecam-mrz-scanner-1.0.0.jar"
+$jarPath = "target\litecam-document-scanner-1.0.0.jar"
 if (Test-Path $jarPath) {
     $jarSize = (Get-Item $jarPath).Length
     $jarSizeMB = [math]::Round($jarSize / 1MB, 2)
