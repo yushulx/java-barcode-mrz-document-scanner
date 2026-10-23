@@ -419,4 +419,4 @@ echo "JAR size: $(du -h target/litecam-mrz-scanner-1.0.0.jar 2>/dev/null | cut -
 This project shows how to build a full-featured MRZ scanner desktop application in Java 17 using the Dynamsoft Capture Vision SDK 3.6.4000 and the LiteCam camera library. The `CaptureVisionRouter` with the `ReadPassportAndId` template reduces the entire OCR-to-parsed-field pipeline to a single method call, while LiteCam handles low-level camera capture through JNI so the Swing application stays portable across Windows, Linux, and macOS. As a next step, explore the [Dynamsoft Capture Vision Java API documentation](https://www.dynamsoft.com/capture-vision/docs/server/programming/java/) to add support for barcode scanning, document detection, or custom MRZ templates within the same router instance.
 
 ## Source Code
-[https://github.com/yushulx/java-jni-barcode-qrcode-reader/tree/main/examples/mrz-scanner](https://github.com/yushulx/java-jni-barcode-qrcode-reader/tree/main/examples/mrz-scanner)
+[https://github.com/yushulx/java-barcode-mrz-document-scanner/tree/main/examples/mrz-scanner](https://github.com/yushulx/java-barcode-mrz-document-scanner/tree/main/examples/mrz-scanner)

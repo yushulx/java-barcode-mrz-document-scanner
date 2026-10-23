@@ -31,8 +31,8 @@ A valid [Dynamsoft license key](https://www.dynamsoft.com/customer/license/trial
 ### 1. Clone the repository
 
 ```bash
-git clone https://github.com/yushulx/java-jni-barcode-qrcode-reader.git
-cd java-jni-barcode-qrcode-reader/examples/document-scanner
+git clone https://github.com/yushulx/java-barcode-mrz-document-scanner.git
+cd java-barcode-mrz-document-scanner/examples/document-scanner
 ```
 
 ### 2. Build

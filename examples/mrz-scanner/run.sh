@@ -1,12 +1,12 @@
 #!/bin/bash
-# Run LiteCam Barcode Scanner
+# Run LiteCam MRZ Scanner
 # Shell script to run the Maven-built application
 
 set -e
 
-JAR_PATH="target/litecam-barcode-scanner-1.0.0.jar"
+JAR_PATH="target/litecam-mrz-scanner-1.0.0.jar"
 
-echo "Starting LiteCam Barcode Scanner..."
+echo "Starting LiteCam MRZ Scanner..."
 
 # Check if JAR exists
 if [ ! -f "$JAR_PATH" ]; then

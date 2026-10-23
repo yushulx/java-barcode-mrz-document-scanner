@@ -1,8 +1,13 @@
-/src/main/resources
-/src/main/java/com/dynamsoft/barcode/native
-/jni/build
-classes
-/target/maven-archiver
+# Maven / build output
 target
 build
 java-build
+classes
+
+# IDE
+.idea/
+*.iml
+.DS_Store
+
+# WorkBuddy workspace data
+.workbuddy/
