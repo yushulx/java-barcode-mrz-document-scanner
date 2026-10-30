@@ -6,12 +6,12 @@ A collection of Java samples for **barcode scanning**, **document detection & no
 <dependency>
     <groupId>com.dynamsoft</groupId>
     <artifactId>dbr</artifactId>   <!-- Barcode Reader -->
-    <version>11.6.4000</version>
+    <version>11.6.5000</version>
 </dependency>
 <dependency>
     <groupId>com.dynamsoft</groupId>
     <artifactId>dcv</artifactId>   <!-- Capture Vision (document / MRZ) -->
-    <version>3.6.4000</version>
+    <version>3.6.5000</version>
 </dependency>
 ```
 
@@ -19,10 +19,10 @@ A collection of Java samples for **barcode scanning**, **document detection & no
 
 | Sample | What it does | SDK | JDK |
 |---|---|---|---|
-| [Barcode Scanner](examples/barcode-scanner) | Real-time camera scanning with visual overlays plus drag-and-drop file mode; dual engines (Dynamsoft Barcode Reader + ZXing) | `dbr` 11.6.4000, ZXing 3.5.3 | 11+ |
-| [Document Scanner](examples/document-scanner) | Live document boundary detection and one-click deskew/crop with a Swing UI | `dcv` 3.6.4000 | 17+ |
-| [MRZ Scanner](examples/mrz-scanner) | Passport and ID MRZ detection with parsed fields (document number, name, nationality, dates) | `dcv` 3.6.4000 | 17+ |
-| [ZXing vs Dynamsoft](examples/zxing-dynamsoft) | Three side-by-side samples: command line, Swing GUI, Spring Boot web API | `dbr` 11.6.4000, ZXing 3.5.3 | 8+ / 17+ |
+| [Barcode Scanner](examples/barcode-scanner) | Real-time camera scanning with visual overlays plus drag-and-drop file mode; dual engines (Dynamsoft Barcode Reader + ZXing) | `dbr` 11.6.5000, ZXing 3.5.3 | 11+ |
+| [Document Scanner](examples/document-scanner) | Live document boundary detection and one-click deskew/crop with a Swing UI | `dcv` 3.6.5000 | 17+ |
+| [MRZ Scanner](examples/mrz-scanner) | Passport and ID MRZ detection with parsed fields (document number, name, nationality, dates) | `dcv` 3.6.5000 | 17+ |
+| [ZXing vs Dynamsoft](examples/zxing-dynamsoft) | Three side-by-side samples: command line, Swing GUI, Spring Boot web API | `dbr` 11.6.5000, ZXing 3.5.3 | 8+ / 17+ |
 
 The desktop samples capture video through the bundled **LiteCam** library (`libs/litecam.jar`, a thin camera capture helper for Windows/Linux/macOS); all barcode, document and MRZ processing is done by the Dynamsoft Java SDK.
 

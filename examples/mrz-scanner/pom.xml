@@ -20,7 +20,7 @@
         <java.version>17</java.version>
 
         <!-- Dependency versions -->
-        <dynamsoft.dcv.version>3.6.4000</dynamsoft.dcv.version>
+        <dynamsoft.dcv.version>3.6.5000</dynamsoft.dcv.version>
         <slf4j.version>2.0.9</slf4j.version>
         <logback.version>1.5.18</logback.version>
         <junit.version>5.10.0</junit.version>

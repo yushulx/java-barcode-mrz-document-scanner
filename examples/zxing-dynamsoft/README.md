@@ -17,7 +17,7 @@ Configure the `pom.xml` file with the Dynamsoft Maven repository and the two dep
     <dependency>
         <groupId>com.dynamsoft</groupId>
         <artifactId>dbr</artifactId>
-        <version>11.6.4000</version>
+        <version>11.6.5000</version>
     </dependency>
     <dependency>
         <groupId>com.google.zxing</groupId>

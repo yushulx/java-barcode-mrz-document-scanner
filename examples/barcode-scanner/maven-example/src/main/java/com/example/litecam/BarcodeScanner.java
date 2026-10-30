@@ -567,7 +567,7 @@ public class BarcodeScanner extends JPanel {
 
             // Create ImageData object for Dynamsoft - use reflection to find correct
             // constructor
-            ImageData imageData = new ImageData(imageBytes, width, height, width * 3, EnumImagePixelFormat.IPF_RGB_888,
+            ImageData imageData = new ImageData(imageBytes, width, height, width * 3, EnumImagePixelFormat.IPF_BGR_888,
                     0, null);
 
             // Capture barcodes using ImageData

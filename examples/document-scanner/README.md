@@ -22,7 +22,7 @@ https://github.com/user-attachments/assets/bd91971e-07c7-4e02-b8bd-46f27097fc80
 | Java | 17+ |
 | Maven | 3.8+ |
 | LiteCam SDK | `libs/litecam.jar` + native libs |
-| Dynamsoft Capture Vision SDK | 3.6.4000 (downloaded from Maven) |
+| Dynamsoft Capture Vision SDK | 3.6.5000 (downloaded from Maven) |
 
 A valid [Dynamsoft license key](https://www.dynamsoft.com/customer/license/trialLicense/?product=dcv&package=cross-platform) is required at runtime. The project ships with a public trial key for evaluation.
 
